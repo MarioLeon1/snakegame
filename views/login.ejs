@@ -1,0 +1,26 @@
+<div class="form-container mt-4 text-center">
+    <h1 class="text-center">INICIAR SESIÓN</h1>
+    <div class="overlay-container">
+      <p>SI LA CUENTA NO EXISTE, SE CREARÁ</p>
+      <form action="/login" method="POST" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="username" class="form-label">NOMBRE DE USUARIO:</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+          <div class="invalid-feedback">
+            Por favor, introduce un nombre de usuario.
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="password" class="form-label">CONTRASEÑA:</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+          <div class="invalid-feedback">
+            Por favor, introduce una contraseña.
+          </div>
+        </div>
+  
+        <button type="submit" class="btn btn-success">ACCEDER</button>
+      </form>
+    </div>
+  </div>
+  

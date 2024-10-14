@@ -1,0 +1,47 @@
+<div class="form-container mt-4 text-center">
+  <h1 class="text-center">GESTIÓN DE PERSONAJES</h1>
+  <div class="overlay-container">
+    <form action="/characters/<%= character.id %>/update" method="POST" class="needs-validation" novalidate>
+      
+      <!-- Nombre del personaje -->
+      <div class="mb-3">
+        <label for="name" class="form-label">NOMBRE:</label>
+        <input type="text" class="form-control" id="name" name="name" value="<%= character.name %>" required>
+        <div class="invalid-feedback">
+          Por favor, escribe un nombre.
+        </div>
+      </div>
+
+      <!-- Color del personaje -->
+      <div class="mb-3">
+        <label for="color" class="form-label">COLOR:</label>
+        <select class="form-select" id="color" name="color" required>
+          <option value="verde" <%= character.color === "verde" ? "selected" : "" %>>Verde</option>
+          <option value="rojo" <%= character.color === "rojo" ? "selected" : "" %>>Rojo</option>
+          <option value="marrón" <%= character.color === "marrón" ? "selected" : "" %>>Marrón</option>
+          <option value="amarillo" <%= character.color === "amarillo" ? "selected" : "" %>>Amarillo</option>
+          <option value="naranja" <%= character.color === "naranja" ? "selected" : "" %>>Naranja</option>
+          <option value="negro" <%= character.color === "negro" ? "selected" : "" %>>Negro</option>
+          <option value="azul" <%= character.color === "azul" ? "selected" : "" %>>Azul</option>
+          <option value="violeta" <%= character.color === "violeta" ? "selected" : "" %>>Violeta</option>
+          <option value="rosa" <%= character.color === "rosa" ? "selected" : "" %>>Rosa</option>
+        </select>
+        <div class="invalid-feedback">
+          Por favor, selecciona un color.
+        </div>
+      </div>
+
+      <!-- Nivel del personaje -->
+      <div class="mb-3">
+        <label for="level" class="form-label">NIVEL:</label>
+        <input type="number" class="form-control" id="level" name="level" value="<%= character.level %>" min="1" max="10" required>
+        <div class="invalid-feedback">
+          Por favor, proporciona un nivel entre 1 y 10.
+        </div>
+      </div>
+
+      <!-- Botón para guardar los cambios -->
+      <button type="submit" id="botonGuardar" class="btn btn-success">GUARDAR CAMBIOS</button>
+    </form>
+  </div>
+</div>

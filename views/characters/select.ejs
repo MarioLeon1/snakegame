@@ -1,0 +1,15 @@
+<div class="form-container mt-5 text-center">
+  <div id="containerPersonajes" class="overlay-container p-4">
+    <% characters.forEach(character => { %>
+      <div class="mb-4 character-card">
+        <p><strong>NOMBRE:</strong> <%= character.name %></p>
+        <p><strong>NIVEL:</strong> <%= character.level %></p>
+        <!-- Formulario para seleccionar personaje -->
+        <form action="/game/select" method="POST" style="display: inline;">
+          <input type="hidden" name="characterId" value="<%= character.id %>">
+          <button type="submit" class="btn btn-primary">SELECCIONAR</button>
+        </form>
+      </div>
+    <% }); %>
+  </div>
+</div>

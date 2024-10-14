@@ -1,0 +1,209 @@
+@font-face {
+    font-family: "OPTI";
+    src: url(OPTISansSerif-Shaded.otf);
+}
+
+body {
+    font-family: 'OPTI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0b3d0b;
+}
+
+#snake-game-title p:first-child {
+    font-size: 48px; /* "Texto: The" */
+    margin-bottom: 10px;
+}
+
+#snake-game-title p:last-child { /* "Texto: Snake Game" */
+    font-size: 96px;
+    margin-top: -10px;
+}
+
+header {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+h1, h2 {
+    color: #fff;
+}
+
+.container-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+img {
+    max-width: 10%;
+    height: auto;
+}
+
+#snake-game-title {
+    color: #fff;
+    text-align: center;
+    line-height: 1.2;
+}
+
+button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 25px 50px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 0px;
+    font-family: 'OPTI', Arial, sans-serif; 
+}
+
+#play-button{
+    font-size: 32px;
+}
+
+
+#botonEliminar{
+    padding:5px;
+    background: transparent;
+}
+
+#botonSeleccionar{
+    padding:5px;
+    background: transparent;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+.links {
+    color: white;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.links a {
+    color: white; 
+    text-decoration: none;
+    padding: 0 10px;
+}
+
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+#game-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    text-align: center;
+    font-family: 'OPTI', Arial, sans-serif;
+}
+
+#back-button:hover {
+    background-color: #333;
+}
+
+
+canvas {
+    margin-bottom: 20px;
+}
+
+#game {
+    background-color: #324A5F;
+    border: 1px solid white;
+    margin-bottom: 20px;
+}
+
+a {
+    color: white;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-right: 1em; 
+    margin-left: 1em;
+}
+
+a:hover {
+    color: lightgray;
+}
+
+#score-container {
+    text-align: center;
+    display: none;
+}
+
+.form-container {
+    position: relative; /* Necesario para el posicionamiento del contenedor overlay */
+    display: flex;
+    flex-direction: column; /* Para apilar los elementos verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100vh; /* Para ocupar toda la altura de la ventana */
+}
+
+.overlay-container {
+    position: relative; 
+    background-color: rgba(255, 165, 0, 0.9); /* Naranja translúcido */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1; /* Asegura que se posicione sobre el fondo */
+}
+
+.mb-3 {
+    margin-bottom: 20px; /* Espacio entre los campos */
+}
+
+.invalid-feedback {
+    font-family: Arial;
+}
+
+#botonCrear{
+    margin-left:40px;
+}
+
+h2 {
+    color: #fff; /* Similar a los otros títulos */
+    text-align: center;
+    margin-top: 30px; /* Separación del borde superior */
+    font-family: 'OPTI', Arial, sans-serif;
+    font-size: 36px;
+}
+
+h1 {
+    color: #fff; 
+    text-align: center;
+    margin-top: 40px;
+    font-family: 'OPTI', Arial, sans-serif;
+    font-size: 36px;
+    z-index: 2; /* Asegura que el título esté encima del contenedor */
+}
+
+.character-card {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+}
+
+#containerPersonajes {
+    margin-top: 100px;
+}

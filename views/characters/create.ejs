@@ -1,0 +1,52 @@
+<div class="form-container mt-4 text-center">
+  <h1 class="text-center">CREAR PERSONAJE</h1>
+  <div class="overlay-container">
+    <form action="/characters" method="post" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="name" class="form-label">NOMBRE:</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+        <div class="invalid-feedback">
+          Por favor, escribe un nombre.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="color" class="form-label">COLOR:</label>
+        <select class="form-select" id="color" name="color" required>
+          <option value="" disabled selected>Selecciona un color</option>
+          <option value="verde">Verde</option>
+          <option value="rojo">Rojo</option>
+          <option value="marrón">Marrón</option>
+          <option value="amarillo">Amarillo</option>
+          <option value="naranja">Naranja</option>
+          <option value="negro">Negro</option>
+          <option value="azul">Azul</option>
+        </select>
+        <div class="invalid-feedback">
+          Por favor, escribe un color.
+        </div>
+      </div>
+
+      <button type="submit" id="botonCrear" class="btn btn-success">CREAR</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Script para validar los campos usando Bootstrap
+  (function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+
+    Array.prototype.slice.call(forms).forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>

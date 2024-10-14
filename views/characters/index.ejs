@@ -1,0 +1,19 @@
+<div class="form-container mt-5 text-center">
+  <h1 class="text-center mb-4">PERSONAJES</h1>
+  <div class="overlay-container p-4">
+    <a href="/characters/new" class="btn btn-success mb-3">Crear nuevo personaje</a>
+    <ul class="list-group">
+      <% characters.forEach(character => { %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span><%= character.name %></span>
+          <span>
+            <a href="/characters/<%= character.id %>/edit" class="btn btn-warning btn-sm">Editar</a>
+            <form action="/characters/<%= character.id %>/delete" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este personaje?');">
+              <button type="submit" id="botonEliminar" class="btn btn-danger btn-sm">ELIMINAR</button>
+            </form>
+          </span>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+</div>

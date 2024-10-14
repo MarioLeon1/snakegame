@@ -1,0 +1,256 @@
+<div class="container-center">
+    <!-- Imagen de la serpiente -->
+    <img src="/images/serpiente.png" alt="Snake" id="snake-image" width="auto" height="auto">
+
+    <!-- Título del juego -->
+    <div id="snake-game-title">
+        <p>THE</p>
+        <p>SNAKE GAME</p>
+    </div>
+
+    <!-- Mostrar personaje seleccionado -->
+    <div id="selected-character-container">
+        <p id="selected-character">JUGANDO COMO <%= character.name %></p>
+    </div>
+
+    <!-- Líneas de información de juego -->   
+    <div id="score-container" style="display: none;">
+        <p id="current-level">NIVEL: 1</p>
+        <p id="time-remaining">TIEMPO RESTANTE: 20</p>
+    </div>
+
+    <!-- Botón para jugar -->
+    <button id="play-button">JUGAR</button>
+
+    <!-- Enlaces para cambiar o crear personaje -->
+    <div class="links" id="menu-links">
+        <a href="/game/select" id="change-character-link">CAMBIAR PERSONAJE</a> | <a href="/characters/new" id="create-character-link">CREAR PERSONAJE</a>
+    </div>
+
+    <!-- Contenedor del juego -->
+    <div id="game-container">
+        <canvas width="400" height="400" id="game"></canvas>
+        <button id="back-button">VOLVER AL MENÚ</button>
+    </div>
+</div>
+
+<script>
+    const playButton = document.getElementById('play-button');
+    const backButton = document.getElementById('back-button');
+    const gameContainer = document.getElementById('game-container');
+    const snakeImage = document.getElementById('snake-image');
+    const snakeGameTitle = document.getElementById('snake-game-title');
+    const menuLinks = document.getElementById('menu-links');
+    
+    // Elementos de la interfaz
+    const currentLevelElement = document.getElementById('current-level');
+    const timeRemainingElement = document.getElementById('time-remaining');
+    const scoreContainerElement = document.getElementById('score-container');
+
+    // Variables de puntuación y nivel
+    let level = 1;
+    let speed = 4;  // Cuanto más bajo sea este número, más rápido se moverá la serpiente
+    let timeRemaining = 20; // Tiempo inicial para el primer nivel
+    let timerInterval;
+
+    // Colores en español a inglés
+    const colorMap = {
+        "rojo": "red",
+        "verde": "green",
+        "marrón": "brown",
+        "amarillo": "yellow",
+        "naranja": "orange",
+        "negro": "black",
+        "azul": "blue",
+        "violeta": "violet",
+        "rosa": "pink"
+    };
+
+    // Color de la serpiente según el personaje seleccionado (conversión)
+    let snakeColor = "<%= character.color %>".toLowerCase();  // Convertimos a minúsculas para consistencia
+    snakeColor = colorMap[snakeColor] || "black";  // Si no existe en el mapa, por defecto negro
+
+    // Mostrar el juego y ocultar el botón de JUGAR y los enlaces
+    playButton.addEventListener('click', function() {
+        playButton.style.display = 'none';
+        menuLinks.style.display = 'none';
+        gameContainer.style.display = 'flex';
+        scoreContainerElement.style.display = 'block'; // Mostrar las puntuaciones
+
+        // Desplazarse al final de la página para mostrar el juego
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+
+        // Iniciar el temporizador
+        startTimer();
+
+        // Iniciar el juego solo después de que el canvas sea visible
+        requestAnimationFrame(loop);
+    });
+
+    // Volver al menú principal
+    backButton.addEventListener('click', function() {
+        playButton.style.display = 'block';
+        menuLinks.style.display = 'block';
+        gameContainer.style.display = 'none';
+        scoreContainerElement.style.display = 'none'; // Ocultar las puntuaciones
+        clearInterval(timerInterval); // Detener el temporizador
+        updateCharacterLevel(level);  // Actualizar el nivel del personaje al salir del juego
+    });
+
+    // Iniciar el temporizador del juego
+    function startTimer() {
+        timeRemaining = level === 1 ? 20 : 10; // 20 segundos en el nivel 1, luego 10 segundos por nivel
+        timeRemainingElement.innerText = `TIEMPO RESTANTE: ${timeRemaining}`;
+
+        timerInterval = setInterval(function() {
+            timeRemaining--;
+            timeRemainingElement.innerText = `TIEMPO RESTANTE: ${timeRemaining}`;
+
+            if (timeRemaining <= 0) {
+                // Si se acaba el tiempo y no se ha comido la manzana
+                snake.cells.pop(); // Reducir el tamaño de la serpiente
+                if (snake.cells.length < 1) {
+                    alert("Ha perdido la partida");
+                    resetGame(); // Reiniciar el juego
+                    return;
+                }
+
+                // Disminuir el nivel y ajustar la velocidad
+                if (level > 1) {
+                    level -= 1;  // Reducir el nivel
+                    speed += 0.5;  // Reducir la velocidad (incrementar el valor de "speed")
+                    currentLevelElement.innerText = `NIVEL: ${level}`;
+                    snake.cells.pop();  // Reducir el tamaño de la serpiente una vez más por bajar de nivel
+                    snake.maxCells--; // Disminuir el máximo tamaño de la serpiente también
+                }
+
+                // Resetear el temporizador
+                timeRemaining = level === 1 ? 20 : 10;
+            }
+        }, 1000);
+    }
+
+    // Actualizar el nivel del personaje en el servidor
+    function updateCharacterLevel(newLevel) {
+        fetch('/game/update-level', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ characterId: "<%= character.id %>", level: newLevel }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Nivel actualizado correctamente:', data);
+        })
+        .catch((error) => {
+            console.error('Error al actualizar el nivel:', error);
+        });
+    }
+
+    // Código del juego Snake (adaptado para cambiar el color de la serpiente)
+    var canvas = document.getElementById('game');
+    var context = canvas.getContext('2d');
+    var grid = 16;
+    var count = 0;
+    
+    var snake = { x: 160, y: 160, dx: grid, dy: 0, cells: [], maxCells: 4 };
+    var food = { x: 320, y: 320 };
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    function loop() {
+        requestAnimationFrame(loop);
+        if (++count < speed) return;
+        count = 0;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        snake.x += snake.dx;
+        snake.y += snake.dy;
+
+        // Control de la posición de la serpiente (borde de la pantalla)
+        if (snake.x < 0) snake.x = canvas.width - grid;
+        else if (snake.x >= canvas.width) snake.x = 0;
+        if (snake.y < 0) snake.y = canvas.height - grid;
+        else if (snake.y >= canvas.height) snake.y = 0;
+
+        snake.cells.unshift({ x: snake.x, y: snake.y });
+        if (snake.cells.length > snake.maxCells) snake.cells.pop();
+
+        // Dibujar la comida
+        context.fillStyle = 'white';
+        context.fillRect(food.x, food.y, grid - 1, grid - 1);
+
+        // Dibujar la serpiente con el color del personaje seleccionado
+        context.fillStyle = snakeColor;
+
+        snake.cells.forEach(function(cell, index) {
+            context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
+            if (cell.x === food.x && cell.y === food.y) {
+                snake.maxCells++;
+                level += 1;  // Incrementar el nivel
+                speed = Math.max(1, speed - 0.5);  // Aumentar la velocidad (reducir el valor de "speed")
+
+                // Actualizar el nivel en el backend
+                updateCharacterLevel(level);
+
+                // Reiniciar el temporizador cuando la serpiente come la comida
+                clearInterval(timerInterval);
+                startTimer();
+
+                // Actualizar la UI con el nuevo nivel
+                currentLevelElement.innerText = `NIVEL: ${level}`;
+
+                // Colocar la comida en una nueva posición
+                food.x = getRandomInt(0, 25) * grid;
+                food.y = getRandomInt(0, 25) * grid;
+            }
+            for (var i = index + 1; i < snake.cells.length; i++) {
+                if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                    // Si la serpiente colisiona consigo misma
+                    resetGame();
+                }
+            }
+        });
+    }
+
+    // Reiniciar el juego
+    function resetGame() {
+        clearInterval(timerInterval);
+        snake.x = 160;
+        snake.y = 160;
+        snake.cells = [];
+        snake.maxCells = 4;
+        snake.dx = grid;
+        snake.dy = 0;
+        level = 1;  // Reiniciar nivel
+        speed = 4;  // Reiniciar velocidad
+        timeRemaining = 20;  // Reiniciar tiempo
+        currentLevelElement.innerText = `NIVEL: ${level}`;
+        timeRemainingElement.innerText = `TIEMPO RESTANTE: ${timeRemaining}`;
+        food.x = getRandomInt(0, 25) * grid;
+        food.y = getRandomInt(0, 25) * grid;
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.which === 37 || e.which === 65) && snake.dx === 0) { // Flecha izquierda o 'A'
+            snake.dx = -grid;
+            snake.dy = 0;
+        } else if ((e.which === 38 || e.which === 87) && snake.dy === 0) { // Flecha arriba o 'W'
+            snake.dy = -grid;
+            snake.dx = 0;
+        } else if ((e.which === 39 || e.which === 68) && snake.dx === 0) { // Flecha derecha o 'D'
+            snake.dx = grid;
+            snake.dy = 0;
+        } else if ((e.which === 40 || e.which === 83) && snake.dy === 0) { // Flecha abajo o 'S'
+            snake.dy = grid;
+            snake.dx = 0;
+        }
+    });
+
+    requestAnimationFrame(loop);
+</script>

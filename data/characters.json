@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "pepe gonzáledfdz",
+    "color": "marrón",
+    "level": 4,
+    "userId": 1
+  },
+  {
+    "id": 2,
+    "name": "ramiro calle",
+    "color": "verde",
+    "level": 9,
+    "userId": 1
+  },
+  {
+    "id": 3,
+    "name": "olga",
+    "color": "rojo",
+    "level": 3,
+    "userId": 2
+  },
+  {
+    "id": 4,
+    "name": "Supergaviota",
+    "color": "azul",
+    "level": 8,
+    "userId": 4
+  },
+  {
+    "id": 6,
+    "name": "dfsdfad",
+    "color": "negro",
+    "level": 2,
+    "userId": 4
+  },
+  {
+    "id": 7,
+    "name": "Alvaro 3o",
+    "color": "amarillo",
+    "level": 7,
+    "userId": 2
+  },
+  {
+    "id": 8,
+    "name": "Hola",
+    "color": "violeta",
+    "level": 1,
+    "userId": 4
+  },
+  {
+    "id": 8,
+    "name": "pochi",
+    "color": "azul",
+    "level": 1,
+    "userId": 4
+  }
+]
